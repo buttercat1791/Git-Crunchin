@@ -1,4 +1,4 @@
-from .arg_handler import parse_runtime_args
+from arg_handler import parse_runtime_args
 
 
 def main():
