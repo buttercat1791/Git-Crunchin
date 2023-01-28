@@ -26,3 +26,11 @@ Install all required packages by running:
 ```python
 pip install -r requirements.txt
 ```
+
+### Usage
+
+Run the program from the repo root directory with:
+
+```python
+python ./src/main.py
+```
