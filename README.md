@@ -16,3 +16,13 @@ Finally, and this might have to happen manually, I need the transcriptions uploa
 
 MVP for the project is automatically moving from one audio file to the next and placing all the text files in a folder.
 But I figured I'd give you the whole enchilada just in case it's possible.
+
+### Setup
+
+This project uses Python virtual environments.  For Whisper compatibility, use Python 3.8, 3.9, or 3.10.
+
+Install all required packages by running:
+
+```python
+pip install -r requirements.txt
+```
