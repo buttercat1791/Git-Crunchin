@@ -5,7 +5,6 @@ from typing import List
 import whisper
 
 
-# TODO: Add error handling.
 # TODO: Add per-file progress tracking.
 class Transcriber:
     model = None
@@ -13,7 +12,10 @@ class Transcriber:
     requested_files: List[str] = []
 
     def __init__(self, whisper_model: str = "base.en"):
-        self.model = whisper.load_model(whisper_model)
+        try:
+            self.model = whisper.load_model(whisper_model)
+        except Exception as e:
+            print(f"Error loading Whisper model {whisper_model}: {e}")
 
     def transcribe(self, filename: str) -> str:
         """Transcribe a single audio file from the given filename.
@@ -24,10 +26,14 @@ class Transcriber:
         Returns:
             str: The full transcribed text.
         """
-        self.requested_files.append(filename)
-        transcription = self.model.transcribe(filename)
-        self.completed_files.append(filename)
-        return transcription
+        try:
+            self.requested_files.append(filename)
+            transcription = self.model.transcribe(filename)
+            self.completed_files.append(filename)
+        except Exception as e:
+            print(f"Error while transcribing a single file {filename}: {e}")
+        else:
+            return transcription
 
     def transcribe_many(
         self,
@@ -48,5 +54,13 @@ class Transcriber:
         Returns:
             AsyncResult: Indicates when all the input files have been transcribed.
         """
+        def on_error(e: BaseException):
+            print(f"Error while transcribing multiple files: {e}")
+
         with Pool(num_processes) as pool:
-            return pool.apply_async(self.transcribe, args = filenames, callback = callback)
+            return pool.apply_async(
+                self.transcribe,
+                args = filenames,
+                callback = callback,
+                error_callback = on_error
+            )
