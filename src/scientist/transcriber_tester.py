@@ -14,13 +14,17 @@ def test_transcriber(pod_path: str, trans_path: str):
 
     # Find absolute paths of target directories.
     podcasts = Path(pod_path).resolve()
-    transcriptions = Path(trans_path).resolve()
+    transcripts = Path(trans_path).resolve()
     
     # Confirm that we have the right directory path by printing the files.
     print('\nPODCAST FILES\n')
     print(podcasts.name)
     for file in podcasts.iterdir():
         print(f'|  {file.name}')
+
+    # Create the output directory if needed.
+    if not transcripts.exists() or not transcripts.is_dir():
+        transcripts.mkdir()
     
     # Change CWD to the directory containing the podcast files.
     os.chdir(podcasts)
@@ -29,6 +33,13 @@ def test_transcriber(pod_path: str, trans_path: str):
     # Transcribe one file.
     freaking_cast = next(podcasts.iterdir())
     content = transcriber.transcribe(freaking_cast.name)
-    transcriptions.write_text(content["text"])
-    print('\nTRANSCRIBED FILES\n')
-    print(freaking_cast)
+
+    # Create the output file.
+    output = transcripts.joinpath(freaking_cast.name).with_suffix('.txt')
+    output.write_text(content['text'])
+
+    # Print the names of the completed files.
+    print('\nGENERATED FILES\n')
+    print(f'{transcripts.parent.name}/{transcripts.name}')
+    print(f'|  {output.name}')
+

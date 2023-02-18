@@ -7,7 +7,7 @@ def main():
     parse_runtime_args()
 
     # Assume we're running in the repo root for pathing.
-    test_transcriber('./podcasts', './transcriptions')
+    test_transcriber('./podcasts', './podcasts/transcripts')
 
 
 if __name__ == "__main__":
