@@ -11,10 +11,8 @@ class Redactor:
     ]
 
     ad_regexes: dict[str, Pattern] = {
-        'aquinas_wealth_start': re.compile(r'(?i)this\s+episode\s+is\s+sponsored\s+by\s+\bAquinas\s+Wealth\s+Advisors\b'),
-        'aquinas_wealth_end': re.compile(r'(?i)Aquinas\s+Wealth\s+Advisors\s+a\s+registered\s+investment\s+advisor\s+with\s+the\s+Securities\s+and\s+Exchange\s+Commission[.]?\s+'),
-        'pilgrimage_start': re.compile(r'(?i)hey\s+guys[.,;]?\s+Patrick\s+here\s+with\s+a\s+pretty\s+exciting\s+announcement\s+'),
-        'pilgrimage_end': re.compile(r'(?i)now[.,;]?\s+back\s+to\s+the\s+episode\s+[,;]?guys[.,;]?\s+yeah[.]?\s+'),
+        'ad_start': re.compile(r'This\s+episode(\s+of\s+The\s+Crunch)?\s+is\s+sponsored\s+by'),
+        'ad_end': re.compile(r'thank\s+you\s+to\s+([^ ]+)\s+for\s+sponsoring\s+this\s+episode(\s+of\s+The\s+Crunch)?'),
     }
 
     def remove_ads(self, transcript: str) -> str:
