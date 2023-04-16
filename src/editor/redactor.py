@@ -6,8 +6,7 @@ from typing import AnyStr
 
 class Redactor:
     ad_list: list[tuple[str, str]] = [
-        ('aquinas_wealth_start', 'aquinas_wealth_end'),
-        ('pilgrimage_start', 'pilgrimage_end'),
+        ('ad_start', 'ad_end'),
     ]
 
     ad_regexes: dict[str, Pattern] = {
@@ -27,8 +26,8 @@ class Redactor:
         processed_text = transcript
 
         for ad in self.ad_list:
-            start_match: Match = self.ad_regexes[ad[0]].search(processed_text)
-            end_match: Match = self.ad_regexes[ad[1]].search(processed_text)
+            start_match: Match = re.search(processed_text, self.ad_regexes[ad[0]], re.IGNORECASE)
+            end_match: Match = re.search(processed_text, self.ad_regexes[ad[1]], re.IGNORECASE)
 
             if start_match and end_match:
                 processed_text = processed_text[:start_match.start()] + processed_text[end_match.end():]
